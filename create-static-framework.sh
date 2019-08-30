@@ -32,17 +32,17 @@ create_dynamiclib() {
         local PLATFORM_MIN_VERSION_ARG="-mios-version-min=${IOS_MIN}"
     fi
 
-	xcrun clang -arch ${ARCH} \
-		-L${SCRIPT_DIR}/${PLATFORM_DIR_NAME}/lib \
-		-isysroot $(xcrun --sdk ${SDK} --show-sdk-path) \
-		-lssl -lcrypto \
-		${PLATFORM_MIN_VERSION_ARG} \
-		-dynamiclib \
-		-Xlinker -no_deduplicate \
-		-Xlinker -all_load \
-		-Xlinker -export_dynamic \
-		-Xlinker -r \
-		-o ${SCRIPT_DIR}/Frameworks/${PLATFORM_DIR_NAME}/$FWNAME.framework/Versions/A/$FWNAME-${ARCH}
+    xcrun clang -arch ${ARCH} \
+        -L${SCRIPT_DIR}/${PLATFORM_DIR_NAME}/lib \
+        -isysroot $(xcrun --sdk ${SDK} --show-sdk-path) \
+        -lssl -lcrypto \
+        ${PLATFORM_MIN_VERSION_ARG} \
+        -dynamiclib \
+        -Xlinker -no_deduplicate \
+        -Xlinker -all_load \
+        -Xlinker -export_dynamic \
+        -Xlinker -r \
+        -o ${SCRIPT_DIR}/Frameworks/${PLATFORM_DIR_NAME}/$FWNAME.framework/Versions/A/$FWNAME-${ARCH}
 
         cp -r ${SCRIPT_DIR}/${PLATFORM_DIR_NAME}/include/openssl/* ${SCRIPT_DIR}/Frameworks/${PLATFORM_DIR_NAME}/$FWNAME.framework/Versions/A/Headers/
         sed -i '' 's/include <openssl/include <'"${FWNAME}"'/' ${SCRIPT_DIR}/Frameworks/${PLATFORM_DIR_NAME}/$FWNAME.framework/Versions/A/Headers/*.h
